@@ -1,8 +1,8 @@
 export const getContacts = () =>
-  fetch("https://phnebook.heroku.com/").then((res) => res.json());
+  fetch("http://localhost:8080/").then((res) => res.json());
 
 export const createContact = (contact) =>
-  fetch("https://phnebook.heroku.com/create", {
+  fetch("http://localhost:8080/create", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -12,7 +12,7 @@ export const createContact = (contact) =>
   });
 
 export const updateContact = (contact, id) =>
-  fetch(`https://phnebook.heroku.com/${id}`, {
+  fetch(`http://localhost:8080/${id}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -22,7 +22,7 @@ export const updateContact = (contact, id) =>
   });
 
 export const deleteContact = (id) =>
-  fetch(`https://phnebook.heroku.com/${id}`, {
+  fetch(`http://localhost:8080/${id}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -31,4 +31,4 @@ export const deleteContact = (id) =>
   });
 
 export const getContact = (id) =>
-  fetch(`https://phnebook.heroku.com/${id}`).then((res) => res.json());
+  fetch(`http://localhost:8080/${id}`).then((res) => res.json());
