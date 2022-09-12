@@ -65,6 +65,29 @@ app.get("/contact/:id", (req, res) => {
   });
 });
 
+app.delete("/contact/multi", async (req, res) => {
+  req.body.array.forEach(async (id) => {
+    console.log(id);
+    await Contact.findByIdAndDelete(id)
+      .then((data) => {
+        if (!data) {
+          res.status(404).send({
+            message: `Cannot Delete with id ${id}. Maybe id is wrong`,
+          });
+        } else {
+          res.send({
+            message: "User was deleted successfully!",
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "Could not delete User with id=" + id,
+        });
+      });
+  });
+});
+
 app.delete("/contact/:id", async (req, res) => {
   const id = req.params.id;
   // Contact.findById(id, (err, contact) => {

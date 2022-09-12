@@ -29,5 +29,15 @@ export const deleteContact = (id) =>
     },
   });
 
+export const deleteMultiContact = (array) =>
+  fetch(`/contact/multi`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ array: array }),
+  });
+
 export const getContact = (id) =>
   fetch(`/contact/${id}`).then((res) => res.json());
