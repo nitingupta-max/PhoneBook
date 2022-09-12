@@ -1,8 +1,7 @@
-export const getContacts = () =>
-  fetch("http://localhost:8080/").then((res) => res.json());
+export const getContacts = () => fetch("/contact").then((res) => res.json());
 
 export const createContact = (contact) =>
-  fetch("http://localhost:8080/create", {
+  fetch("/contact/create", {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -12,7 +11,7 @@ export const createContact = (contact) =>
   });
 
 export const updateContact = (contact, id) =>
-  fetch(`http://localhost:8080/${id}`, {
+  fetch(`/contact/${id}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -22,7 +21,7 @@ export const updateContact = (contact, id) =>
   });
 
 export const deleteContact = (id) =>
-  fetch(`http://localhost:8080/${id}`, {
+  fetch(`/contact/${id}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -31,4 +30,4 @@ export const deleteContact = (id) =>
   });
 
 export const getContact = (id) =>
-  fetch(`http://localhost:8080/${id}`).then((res) => res.json());
+  fetch(`/contact/${id}`).then((res) => res.json());

@@ -6,12 +6,15 @@ const connectDB = require("./connection/connection");
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
 const { Contact } = require("./models/model");
+const path = require("path");
 
 // middlewares
 connectDB();
 
 app.use(express.json());
 app.use(cors());
+
+app.use("/", express.static(path.join(__dirname, "static")));
 
 // routes
 app.use("/api/users", userRoutes);
@@ -21,7 +24,7 @@ const port = process.env.PORT || 8080;
 
 // CRUD API
 
-app.get("/", (req, res) => {
+app.get("/contact", (req, res) => {
   Contact.find((err, contacts) => {
     if (err) {
       console.log(err);
@@ -31,7 +34,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.post("/create", (req, res) => {
+app.post("/contact/create", (req, res) => {
   // validate request
   if (!req.body) {
     res.status(400).send({ message: "Content can not be emtpy!" });
@@ -55,14 +58,14 @@ app.post("/create", (req, res) => {
   // const contact = new Contact(req.body);
 });
 
-app.get("/:id", (req, res) => {
+app.get("/contact/:id", (req, res) => {
   const id = req.params.id;
   Contact.findById(id, (err, contact) => {
     res.json(contact);
   });
 });
 
-app.delete("/:id", async (req, res) => {
+app.delete("/contact/:id", async (req, res) => {
   const id = req.params.id;
   // Contact.findById(id, (err, contact) => {
   //   res.json(contact);
@@ -87,7 +90,7 @@ app.delete("/:id", async (req, res) => {
     });
 });
 
-app.post("/:id", (req, res) => {
+app.post("/contact/:id", (req, res) => {
   const id = req.params.id;
   Contact.findById(id, (err, contact) => {
     if (!contact) {
