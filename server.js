@@ -6,7 +6,6 @@ const connectDB = require("./connection/connection");
 const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
 const { Contact } = require("./models/model");
-const path = require("path");
 
 // middlewares
 connectDB();
@@ -14,17 +13,15 @@ connectDB();
 app.use(express.json());
 app.use(cors());
 
-app.use("/", express.static(path.join(__dirname, "static")));
-
 // routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 // CRUD API
 
-app.get("/contact", (req, res) => {
+app.get("/", (req, res) => {
   Contact.find((err, contacts) => {
     if (err) {
       console.log(err);
@@ -34,7 +31,7 @@ app.get("/contact", (req, res) => {
   });
 });
 
-app.post("/contact/create", (req, res) => {
+app.post("/create", (req, res) => {
   // validate request
   if (!req.body) {
     res.status(400).send({ message: "Content can not be emtpy!" });
@@ -58,38 +55,14 @@ app.post("/contact/create", (req, res) => {
   // const contact = new Contact(req.body);
 });
 
-app.get("/contact/:id", (req, res) => {
+app.get("/:id", (req, res) => {
   const id = req.params.id;
   Contact.findById(id, (err, contact) => {
     res.json(contact);
   });
 });
 
-app.delete("/contact/multi", async (req, res) => {
-  let flag = false;
-  req.body.array.forEach(async (id) => {
-    await Contact.findByIdAndDelete(id)
-      .then((data) => {
-        if (!data) {
-          flag = true;
-        }
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: "Could not delete User with id=" + id,
-        });
-      });
-  });
-  if (flag)
-    res.status(404).send({
-      message: `Cannot Delete with id ${id}. Maybe id is wrong`,
-    });
-  res.send({
-    message: "Users was deleted successfully!",
-  });
-});
-
-app.delete("/contact/:id", async (req, res) => {
+app.delete("/:id", async (req, res) => {
   const id = req.params.id;
   // Contact.findById(id, (err, contact) => {
   //   res.json(contact);
@@ -114,7 +87,7 @@ app.delete("/contact/:id", async (req, res) => {
     });
 });
 
-app.post("/contact/:id", (req, res) => {
+app.post("/:id", (req, res) => {
   const id = req.params.id;
   Contact.findById(id, (err, contact) => {
     if (!contact) {
